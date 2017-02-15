@@ -120,6 +120,43 @@ def generate_full_list(objects,type,options = {})
   asset options[:list_filename], erb(:full_list)
 end
 
+# This class provides the tree context needed by the server.
+class TreeContext
+  def initialize
+    @depth = 0
+    @even_odd = Alternator.new(:even, :odd)
+  end
+
+  def nest
+    @depth += 1
+    yield
+    @depth -= 1
+  end
+
+  def indent
+    "#{(@depth + 2) * 15}px"
+  end
+
+  def classes
+    classes = []
+    classes << 'collapsed' if @depth > 0
+    classes << @even_odd.next if @depth < 2
+    classes
+  end
+
+  class Alternator
+    def initialize(first, second)
+      @next = first
+      @after = second
+    end
+
+    def next
+      @next, @after = @after, @next
+      @after
+    end
+  end
+end
+
 # This method overrides YARD's default template class_list method.
 #
 # The existing YARD 'Class List' search field contains all the YARD namespace
