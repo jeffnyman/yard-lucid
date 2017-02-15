@@ -1,0 +1,74 @@
+<% @items.each do |item| %>
+<div class="transformer <%= @item_type.gsub(/\s/,'') %>
+                        <%= "nodefinitions" if item.steps.nil? || item.steps.empty? %>
+                        <%= "pending" if item.pending %>">
+  <a name="<%= anchor_for item %>"></a>
+  <div class="title">
+    <span class="pre"><%= h item.keyword %></span>
+    <span class="name"><%= item.value %></span>
+    <div style="float: right;">
+      <a href="http://rubular.com/?regex=<%= urlencode item.value %>" target="_blank">Rubular</a>
+      <%= "| PENDING" if item.pending %>
+      <%= "| UNUSED" if item.steps.nil? || item.steps.empty? %>
+      <a class="stepdef" href="#">[Collapse]</a>
+    </div>
+    <div style="clear: both;"></div>
+  </div>
+
+  <div class="details">
+    <div class="meta" style="clear: right;">
+      <div class="file"><%= h item.location %></div>
+    </div>
+
+    <!-- Comments -->
+    <div>
+      <%= display_comments_for item %>
+    </div>
+
+    <!-- Source Code -->
+    <div class="method_details_list">
+      <table class="source_code">
+        <tr>
+          <td>
+            <pre class="lines"><%= "" %><%= h format_lines(item) %></pre>
+          </td>
+          <td>
+            <pre class="code"><%= "" %><%= html_syntax_highlight item.source %></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Matching Step Instances -->
+    <% if item.steps.length > 0 %>
+      <div class='showSteps'>
+        [<a href='#' class='toggleSteps' alt="<%= item.steps.length %> steps">Hide <%= item.steps.length %> steps</a>]
+      </div>
+    <% end %>
+    <div class="steps">
+      <% if item.steps && !item.steps.empty? %>
+      <% unique_steps(item.steps).each_with_index do |uniq_step,step_index| %>
+      <div class="step <%= (step_index + 1) % 2 == 0 ? 'even' : 'odd' %>">
+        <div>
+          <span class="predicate">
+            <%= h uniq_step.last.first.keyword %>
+          </span>
+          <span class="defined">
+            <%= link_transformed_step(uniq_step.last.first) %>
+          </span>
+        </div>
+        <% uniq_step.last.each do |step| %>
+        <a class="definition" style="clear: right;" href="<%= url_for step.scenario.feature %>"><%= h step.location %></a>
+        <% end %>
+        <div style="clear: both;"></div>
+      </div>
+      <% end %>
+      <% else %>
+      <div class="undefined">No steps were found to match this <%= @item_type %>.</div>
+      <% end%>
+    </div>
+  </div>
+
+  <div style="margin: 30px 20px; border-top: 1px dotted #AAA;"></div>
+</div>
+<% end %>

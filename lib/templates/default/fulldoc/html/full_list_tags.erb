@@ -1,0 +1,16 @@
+<li>
+  <div class="item" style="padding-left: 30px;">
+    <%= linkify YARD::CodeObjects::Lucid::LUCID_TAG_NAMESPACE, "All Tags" %>
+  </div
+</li>
+
+<% n = 'odd' %>
+<% @items.each do |tag| %>
+  <li class="<%= n %>">
+    <div class="item" style="padding-left: 30px;">
+      <%= linkify tag, tag.value %>
+      <small style="display: inline;"><%= tag.all_scenarios.size %></small>
+    </div>
+  </li>
+  <% n = n == 'odd' ? 'even' : 'odd' %>
+<% end %>

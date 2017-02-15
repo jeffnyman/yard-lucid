@@ -1,0 +1,11 @@
+<% n = 'odd' %>
+<% @items.each do |directory| %>
+<li class="<%= n %>">
+  <div class="item" style="padding-left: 30px">
+    <%= "<a class='toggle'></a>" unless directory.features.empty? && directory.subdirectories.empty? %>
+    <%= linkify directory, directory.value %>
+    <small><%= directory.location %></small>
+  </div>
+  <%= directory_node directory, 45, n %>
+</li>
+<% end %>

@@ -1,0 +1,30 @@
+<% if @directory %>
+<div class="specifications">
+  <div class="title">
+    <span class="pre">Directory:</span>
+    <span class="name"><%= h @directory.name.to_s.capitalize %></span>
+  </div>
+
+  <div class="readme">
+    <%= markdown @directory.description %>
+  </div>
+
+  <% if features && !features.empty? %>
+    <%= alpha_table(features) %>
+  <% end %>
+
+  <div id="directory">
+    <div class="title"><span class="name">Tags</span></div>
+  </div>
+  <div class="tags">
+    <%= tags.collect {|tag| linkify(tag,tag.value) }.join(",\n") %>
+  </div>
+
+  <% if directories && !directories.empty? %>
+  <div id="directory">
+    <div class="title"><span class="name">Subdirectories</span></div>
+  </div>
+  <%= alpha_table(directories) %>
+  <% end %>
+</div>
+<% end %>

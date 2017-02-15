@@ -1,0 +1,53 @@
+<% sc = 0 %>
+<% @scenario.examples.each_with_index do |example, example_index| %>
+  <% example.data.each_with_index do |row, row_index| %>
+    <div style="display: none;" class="steps <%= "example#{example_index + 1}-#{row_index +1}" %>">
+      <% scenario = @scenario.scenarios[sc] %>
+      <% @scenario_outline = @scenario ; @scenario = scenario ; @steps = scenario.steps %>
+      <%= erb(:steps) %>
+      <% @scenario = @scenario_outline %>
+      <% sc += 1 %>
+    </div>
+  <% end %>
+<% end %>
+
+
+<div class="outline">
+  <% if @scenario.examples? %>
+    <% @scenario.examples.each_with_index do |example,example_index| %>
+      <div class="keyword">
+        <%= h example.keyword %><%= example.name != "" ? ':' : '' %>
+      </div>
+      <div class="example-group-name"><%= h example.name %></div>
+      <br style="clear: both;"/>
+      <table>
+        <thead>
+          <tr>
+            <% example.headers.each_with_index do |header,header_index| %>
+              <th><%= h(header) %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <% unless example.data.empty? %>
+          <% example.data.each_with_index do |row,row_index| %>
+          <tr class="<%= (row_index + 1) % 2 == 0 ? "even example#{example_index+1}-#{row_index +1}" : "odd example#{example_index+1}-#{row_index +1}" %>">
+            <% row.each_with_index do |column,column_index| %>
+              <td><%= h(column.to_s.strip) %></td>
+            <% end %>
+          </tr>
+          <% end %>
+        <% else %>
+          <!-- Scenario Outline example table is empty -->
+          <tr class="odd">
+            <td colspan="<%= example.headers.length %>" style="text-align: center;">
+              No Examples Defined
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    <% end  %>
+  <% else %>
+  <div class="keyword">No Example Table Defined</div>
+  <div class="keyword suggestion developer">[!] Did you mean to create a Scenario?</div>
+  <% end %>
+</div>

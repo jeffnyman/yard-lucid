@@ -1,0 +1,20 @@
+<li>
+  <div class="item" style="padding-left: 30px">
+    <%= linkify YARD::CodeObjects::Lucid::LUCID_STEPTRANSFORM_NAMESPACE, "All Step Definitions" %>
+  </div>
+</li>
+<% n = 'odd' %>
+<% @items.each do |stepdef| %>
+  <li class="<%= n %>">
+    <div class="item" style="padding-left: 30px">
+      <span class='object_link'>
+        <span class="pre"><%= stepdef.keyword %></span>
+          <a href="<%= url_for stepdef %>" title="<%= h stepdef.value %>">
+            <span class="name"><%= h stepdef.literal_value %></span>
+          </a>&nbsp;&nbsp;
+      </span>
+      <small><%= h(stepdef.location) %></small>
+    </div>
+  </li>
+  <% n = n == 'even' ? 'odd' : 'even' %>
+<% end %>

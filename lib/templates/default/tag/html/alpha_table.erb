@@ -1,0 +1,32 @@
+<% if @elements && !@elements.empty? %>
+  <% i = (@elements.length % 2 == 0 ? 1 : 0) %>
+  <table style="margin-left: 10px; width: 100%;">
+    <tr>
+      <td valign='top' width="50%">
+        <% @elements.each do |letter, objects| %>
+          <% if (i += 1) > (@elements.length / 2 + 1) %>
+          </td><td valign='top' width="50%">
+            <% i = 0 %>
+          <% end %>
+          <ul id="alpha_<%= letter %>" class="alpha">
+            <li class="letter"><%= letter %></li>
+            <ul>
+              <% objects.each do |obj| %>
+                <li>
+                  <% if obj.is_a?(YARD::CodeObjects::Lucid::Scenario) || obj.is_a?(YARD::CodeObjects::Lucid::ScenarioOutline) %>
+                    <a href="<%= url_for(obj.feature,"scenario_#{obj.path[(/.+_(\d+)$/),1]}") %>">
+                 		  <%= h obj.value %>
+                 		</a>
+                  <% else %>
+                    <%= linkify obj, obj.value %>
+                  <% end %>
+                  <small>(<%= obj.file %>)</small>
+                </li>
+              <% end %>
+            </ul>
+          </ul>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+<% end %>

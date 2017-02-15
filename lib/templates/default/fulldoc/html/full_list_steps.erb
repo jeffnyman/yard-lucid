@@ -1,0 +1,20 @@
+<li class='odd'>
+  <div class="item" style="padding-left: 30px">
+    <%= linkify YARD::CodeObjects::Lucid::LUCID_STEPTRANSFORM_NAMESPACE, "All Defined Steps" %>
+  </div>
+</li>
+<% n = 'even' %>
+<% @items.each do |step| %>
+  <li class="<%= n %>">
+    <div class="item" style="padding-left: 30px">
+      <span class='object_link'>
+        <a href="<%= url_for step.scenario.feature %>" title="<%= h step.value %>">
+          <span class="pre"><%= step.keyword %></span>
+          <span class="name"><%= h(step.value) %></span>
+        </a>
+      </span>
+      <span class="">(<%= h(step.file) %>)<span>
+    </div>
+  </li>
+  <% n = n == 'even' ? 'odd' : 'even' %>
+<% end %>

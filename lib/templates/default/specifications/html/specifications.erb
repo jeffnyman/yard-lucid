@@ -1,0 +1,46 @@
+<% if @namespace %>
+  <div id="lucid_logo">&nbsp;</div>
+  <div id="lucid_links">
+    <a href="https://github.com/jeffnyman/yard-lucid">Yard-Lucid</a> |
+    <a href="http://github.com/cucumber/cucumber/wiki/Gherkin">Gherkin</a> |
+    <a href="http://cukes.info/">Cucumber</a> |
+    <a href="http://yardoc.org/">YARD</a>
+  </div>
+
+  <div class="specifications">
+    <% if features && !features.empty? %>
+      <%= alpha_table(features) %>
+    <% else %>
+      <!-- No Features Defined -->
+      <div class="none">No Features Defined</div>
+    <% end %>
+
+    <div id="directory" style="margin-left: 40px;">
+      <div class="title"><span class="name">Tags</span></div>
+    </div>
+    <div class="tags">
+      <%= tags.collect {|tag| linkify(tag,tag.value) }.join(",\n") %>
+    </div>
+
+    <% if feature_subdirectories && !feature_subdirectories.empty? %>
+      <div id="directory" style="margin-left: 40px;">
+        <div class="title"><span class="name">Subdirectories</span></div>
+      </div>
+      <%= alpha_table(feature_subdirectories) %>
+    <% else %>
+      <!-- No Feature Directories -->
+    <% end %>
+
+    <div id="directory" style="margin-left: 40px;">
+      <div class="title"><span class="name">Step Definitions &amp; Transforms</span></div>
+    </div>
+    <div class="steptransformers">
+      <%= step_definitions.length %>
+      <a href="<%= url_for step_transformers, "step_definitions" %>">Step Definitions</a>
+      <%= transformers.length %>
+      <a href="<%= url_for step_transformers, "step_transforms" %>">Transforms</a>
+      and <%= undefined_steps.length %>
+      <a href="<%= url_for step_transformers, "undefined_steps" %>">Undefined Steps</a>
+    </div>
+  </div>
+<% end %>

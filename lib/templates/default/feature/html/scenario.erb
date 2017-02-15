@@ -1,0 +1,52 @@
+<div class="scenario <%= @id %>">
+  <a name="<%= @id %>" />
+  <div class="title">
+    <div style="float: left;">
+      <a class="toggle"> - </a>
+      <span class="pre"><%= @scenario.keyword %>:</span>
+      <span class="name"><%= h @scenario.value %></span>
+    </div>
+    <a class="link" style="float:right; clear:right;" href="<%= url_for(@scenario.feature, @id) %>">link</a>
+  </div>
+
+  <% if @scenario.description.length > 0 %>
+  <div class="description">
+    <%= htmlify_with_newlines @scenario.description %>
+  </div>
+  <% end %>
+
+  <% if @scenario.comments.length > 0 %>
+  <div class="comments developer">
+    <%= htmlify_with_newlines @scenario.comments %>
+  </div>
+  <% end %>
+
+  <div class="details">
+    <div class="meta developer">
+      <div class="file"><%= @scenario.location %></div>
+      <% unless @scenario.tags.empty? %>
+        <div style="clear:right;"></div>
+        <div class="tags">
+          <% @scenario.tags.each do |tag| %>
+            <a href="<%= url_for tag %>"><%= tag.value %></a>
+          <% end %>
+        </div>
+      <% end%>
+      <div style="clear: both;"></div>
+    </div>
+
+    <div class="steps">
+      <% if @scenario.steps.empty?  %>
+        <%= erb(:no_steps_defined) %>
+      <% else %>
+        <%= @steps = @scenario.steps ; erb(:steps) %>
+      <% end %>
+    </div>
+
+    <%= erb(:outline) if @scenario.outline? %>
+  </div>
+
+  <div class="attributes" style="display:none;">
+    <input type="hidden" name="collapsed" value="false">
+  </div>
+</div>
