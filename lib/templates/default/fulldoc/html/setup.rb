@@ -34,7 +34,7 @@ end
 #
 #     `yardoc 'features/**/*' 'specs/**/*'`
 def root_feature_directories
-  @root_feature_directories ||= YARD::CodeObjects::Lucid::LUCID_NAMESPACE.children.find_all {|child| child.is_a?(YARD::CodeObjects::Lucid::FeatureDirectory)}
+  @root_feature_directories ||= YARD::CodeObjects::Lucid::LUCID_NAMESPACE.children.find_all { |child| child.is_a?(YARD::CodeObjects::Lucid::FeatureDirectory) }
 end
 
 # Generate pages for the objects if there are objects of this type contained
@@ -131,10 +131,10 @@ end
 def class_list(root = Registry.root, tree = TreeContext.new)
   return super unless root == Registry.root
 
-  cucumber_namespace = YARD::CodeObjects::Lucid::LUCID_NAMESPACE
-  root.instance_eval { children.delete cucumber_namespace }
+  lucid_namespace = YARD::CodeObjects::Lucid::LUCID_NAMESPACE
+  root.instance_eval { children.delete lucid_namespace }
   out = super(root)
-  root.instance_eval { children.push cucumber_namespace }
+  root.instance_eval { children.push lucid_namespace }
   out
 end
 

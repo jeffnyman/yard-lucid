@@ -1,7 +1,7 @@
 <% @row = @row == 'even' ? 'odd' : 'even' %>
 <% if @directory.children %>
 <ul>
-  <% @directory.children.sort {|x,y| x.value.to_s <=> y.value.to_s }.each_with_index do |child,index| %>
+  <% @directory.children.sort { |x,y| x.value.to_s <=> y.value.to_s }.each_with_index do |child, index| %>
     <% if child.is_a?(YARD::CodeObjects::Lucid::Feature) %>
       <li class="<%= @row %>">
         <div class="item" style="padding-left: <%= @padding %>px">
