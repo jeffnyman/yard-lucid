@@ -53,6 +53,54 @@ Once that is done, you can run YARD as you normally would and have your Gherkin 
 $ yardoc 'features/**/*.feature' 'steps/**/*.rb'
 ```
 
+### Documentation Server
+
+You can also use the YARD server to serve up a copy of a documentation repository. In the directory where you generated your documentation, do this:
+
+```
+yard server
+```
+
+This will start up a server at http://localhost:8808 that you can then view your repository at.
+
+### Configuration
+
+By default the yardoc output will generate a search field for features and tags. This can be configured through the yard configuration file `~/.yard/config`. By default the configuration, YAML format, that is generate by the `yard config` command will save a `SymbolHash`. You can still edit this file add the entry for `:"yard-lucid":` and the sub-entry `menus:`. Here's an example:
+
+```yaml
+--- !map:SymbolHash
+:load_plugins: true
+:ignored_plugins: []
+
+:autoload_plugins: []
+
+:safe_mode: false
+
+:"yard-lucid":
+  menus: [ 'features', 'directories', 'tags', 'steps', 'step definitions' ]
+```
+
+This allows you to add or remove these search fields. The `menus` section can contain all of the above mentioned menus or simply an empty array `[]` if you want no additional menus.
+
+You can exclude any feature or scenario from the yardoc by adding predefined tags to them. To define tags that will be excluded in the yard configuration file, just do this:
+
+```yaml
+  :"yard-lucid":
+    exclude_tags: [ 'practice', 'demo' ]
+```
+
+Here any scenarios or features marked with the tags `@practice` or `@demo` would not be included in the documentation.
+
+Finally, you may want to add other step definition keywords. Lucid Yard already supports the English step definition keywords, but you might want to add foreign language ones. Or you might be using some variant of Gherkin that allows for different step definitions. Using the yard configuration file, you can define additional step definitions that can be matched.
+
+```yaml
+:"yard-lucid":
+  language:
+    step_definitions: [ 'Given', 'When', 'Then', 'And', '*', 'Soit', 'Etantdonné', 'Lorsque', 'Lorsqu', 'Alors', 'Et' ]
+```
+
+Note that when doing this you'll want to include the defaults that Lucid Yard provides as well.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Given the nature of Lucid Yard, it's difficult to provide unit tests for it, so you won't find a great deal of them. In fact, you'll find basically none.
