@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry"
 
   spec.add_runtime_dependency "yard"
-  spec.add_runtime_dependency "gherkin", "~> 4.0"
+  spec.add_runtime_dependency "gherkin", "~> 5.0"
   spec.add_runtime_dependency "cucumber", "~> 3.0"
 
   spec.post_install_message = %{
